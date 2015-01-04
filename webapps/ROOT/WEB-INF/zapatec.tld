@@ -1,0 +1,1458 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+"http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<!-- a tag library descriptor -->
+
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>Zapatec Tag Library</short-name>
+	<uri>/WEB-INF/zapatec.tld</uri>
+	<description>Zapatec Tag Library</description>
+
+	<tag>
+		<name>checkParam</name>
+		<tag-class>com.zapatec.tags.CheckParam</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Using this tag you can make sure that a parameter has been set as part
+			of the URL and if it hasn't, send the user to a different page.
+			A very common use for is to see that the "oid" is set and you can use
+			it in your form. If it isn't set, you send the user to a form where
+			they would click on a row.
+		</description>
+
+		<attribute>
+			<name>param</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				The parameter we're checking has been set in the URL, for instance,
+				"oid" .
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>redirect</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				The address of the page that the user is redirected to if
+				the parameter is not set
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>redirectErr</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Optional address of the error page that the user is redirected to 
+				rather than the redirect page.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>UrlXsl</name>
+		<tag-class>com.zapatec.tags.UrlXsl</tag-class>
+		<tei-class>com.zapatec.tags.UrlXslVar</tei-class>
+		<body-content>empty</body-content>
+		<description>
+			Transform the XML of a report coming from a URL. Standard stylesheet
+			is rdf2html.xsl 
+		</description>
+
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the result of the query. It will
+				also be output automatically unless display="false" is specified.
+			</description>
+		</attribute>
+
+		<attribute><name>display</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                The result of the query is displayed by default. If this is not
+                desired, set display to "false".
+            </description>
+        </attribute>
+
+		<attribute>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Url that points to the XML.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>xsl</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of the XSL stylesheet used to transform this report from
+				XML to HTML. If you don't define a XSL stylesheet a default one
+				is going to be applied: rdf2html.xsl.
+			</description>
+		</attribute>
+
+    	<attribute><name>fromDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Is the XSL stylesheet coming from the database or from disk. 
+				Usually stylesheets are going to come from disk, and the
+				stylesheet file is going to be in the same directory/folder
+				as the JSP file.
+			</description>
+		</attribute>
+
+	</tag>        
+
+
+	<tag>
+		<name>SelectXsl</name>
+		<tag-class>com.zapatec.tags.SelectXsl</tag-class>
+		<tei-class>com.zapatec.tags.SelectXslVar</tei-class>
+		<body-content>empty</body-content>
+		<description>
+			Create a report using an SQL query. The look and feel of the report can
+			be changed using an XSL stylesheet. If you don't define one, the report
+			will use a default stylesheet. You can also control the start row and
+			the number of rows per page in your report.  The default is to start on
+			row 0 and limit to 30 rows per page.
+		</description>
+
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java.lang.String variable to hold the result of the query. It will
+				also be displayed automatically unless display="false" is specified. The
+				variable will be available in the .jsp after the zp:selectXsl tag.
+			</description>
+		</attribute>
+
+		<attribute><name>display</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                The result of the query is displayed by default. If this is not
+                desired, set display to "false".
+            </description>
+        </attribute>
+
+		<attribute><name>displayPager</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+				The pager is displayed by default. If this is not desired, set display to false.
+            </description>
+        </attribute>
+
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				SQL Query that defines the report. Example: "Select * from customer" .
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>sortBy</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies which columns to sort by. Overrides request.getParameter("zpSortBy"). Will
+				append " order by " and the given parameter to the query. 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>xsl</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of the XSL stylesheet used to transform this report from
+				XML to HTML. If you don't define a XSL stylesheet a default one
+				is going to be applied.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>file</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				deprecated, use xsl.
+			</description>
+		</attribute>
+
+
+		<attribute>
+			<name>download</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Set filename for download here to trigger a download in the browser.
+				See also downloadType.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>downloadType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Set file mime type for download. 
+				Ignored unless you also set download="filename"
+			</description>
+		</attribute>
+
+		<attribute><name>rowsPerPage</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Limits the number of rows per page and will display "next" and 
+				"previous" buttons as needed.  For instance, if you specified
+				100, and your report only has 25 rows, it will not display the
+				arrows. If you specify 25 and your report has 40 rows, it will
+				display "next" in the first page and previous in the second page.
+			</description>
+		</attribute>
+
+		<attribute><name>startRow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Start displaying the report at this row. Note that the row order
+				is different depending on the query. So the first row of
+				"select * from customer order by customer_id" is different than
+				the first row in "select * from customer order by first_name".
+				If you do not specify this attribute, it will still honour the
+				query-parameter generated when a user clicks on the next arrow
+				of the pager.
+			</description>
+		</attribute>
+
+		<attribute><name>fromDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Is the XSL stylesheet coming from the database or from disk. 
+				Usually stylesheets are going to come from disk, and the
+				stylesheet file is going to be in the same directory/folder
+				as the JSP file.
+			</description>
+		</attribute>
+
+	    <attribute><name>publicDB</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+							Query supposed to execute on public database. For internal
+							Zapatec use.
+            </description>
+        </attribute>
+
+	</tag>        
+
+	<tag>
+		<name>before</name>
+		<tag-class>com.zapatec.tags.Before</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			If a JSP page that contains a form the body of a "before" tag is only
+			executed before the user clicks on the key that submits the form.
+	</description> 
+	</tag>
+
+	<tag>
+		<name>after</name>
+		<tag-class>com.zapatec.tags.After</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			If a JSP page that contains a form the body of a "after" tag is only
+			executed after the user clicks on the key that submits the form.
+			This is where you could put a "redirect" tag to send the user
+			to a different page.
+	</description> 
+	</tag>
+
+
+	<tag>
+		<name>form</name>
+		<tag-class>com.zapatec.tags.Form</tag-class>
+		<tei-class>com.zapatec.tags.FormVar</tei-class>
+		<body-content>JSP</body-content>
+		<description> 
+			Create a Zapatec form, similar to a HTML form, but with much
+			much added functionality.
+		</description>
+
+		<attribute>
+			<name>xslStylesheet</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of a file containing an XSL stylesheet tranfrom the form. 
+				If no stylesheet is defined, a default stylesheet is used.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>fromDb</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Is the XSL stylesheet coming from the database or from disk. 
+				Usually stylesheets are going to come from disk, and the
+				stylesheet file is going to be in the same directory/folder
+				as the JSP file.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>javascript</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Name of this form. For use by javascript.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>oid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Setting the value of this attribute will pre-populate the form
+				with the data from this oid. Used usually when you want to update
+				a row, but can also be used to duplicate an existing row.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>column</name>
+		<tag-class>com.zapatec.tags.Column</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			A form field/column. This tag needs to be nested inside a "form"
+			tag. Often it will correspond to a column in a database table 
+		</description>
+
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of this column.  This field is required unless "noDb" is set
+				to "true" .
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>table</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Name of the table this column comes from. This field is required 
+				unless "noDb" is set to "true" .
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>defaultValue</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The default value of this field in the form. Setting the 
+				defaultValue and setting the field to be "hidden" is a way
+				of inserting known data into the database. For instance,
+				you can insert the login name of the user into the field
+				"last_updated_by."
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>nodb</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Indicates that the column is a form only, not corresponding to
+				a database field column.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The data type of the field. Required for "noDb" fields.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>required</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Set to true to make this field required.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>hidden</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Set to true to make this field hidden. It will not show in the form,
+				but can have values and can be inserted, updated, etc from the database.
+				See the defaultValue attribute.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>password</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Set to true to have the field display "*******" as the user types to
+				provide privacy.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>occurs</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				For internal Zapatec use.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>length</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The length of the field, will override database defaults. 
+				Required for "noDb" fields.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>enum</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				an enum
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>label</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The label to use for this column that is displayed in the form next
+				to the input area for the form.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>multipart</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Set to true if the column is mutipart -- it is a file upload field.
+				You need also to set the form to be multipart since it's a 
+				property of the form, not just the field.
+			</description>
+		</attribute>
+		<attribute>
+			<name>cols</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			   Sets the number of columns if this is a textarea.
+			</description>
+		</attribute>
+		<attribute>
+			<name>rows</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			   Sets the number of rows if this is a textarea.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>action</name>
+		<tag-class>com.zapatec.tags.Action</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			A form action corresponds to a button that is displayed in a form, and
+			to the action to perform when the user clicks on the button.
+		</description>
+		<attribute>
+			<name>tag</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+			The value of the button -- what the user sees on it.
+		</description>
+		</attribute>
+
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+			Type of action. Valid values are either "db" or "java". Use "java" for
+			JSP code and tags. Use "db" and specify the action with the "param"
+			attribute. 
+			For a detailed explanation see the reference manual.
+		</description>
+		</attribute>
+
+		<attribute>
+			<name>param</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+			Type of action. Valid values are "insert", "update" and "search". 
+			For a detailed explanation see the reference manual.
+		</description>
+		</attribute>
+
+		<attribute>
+			<name>validate</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+		    Manualy specifies whether or not to validate the fields for
+			this action.  Valid values are 'true' and 'false'.  Default
+			value is 'true'.
+		</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>checkAdmin</name>
+		<tag-class>com.zapatec.tags.CheckAdmin</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Check that the users coming to the page are the admin of webapp. If 
+			they are not send them to a page displaying "You are not authorized."
+		</description>
+	</tag>
+
+
+	<tag>
+		<name>checkAuth</name>
+		<tag-class>com.zapatec.tags.CheckAuth</tag-class>
+		<tei-class>com.zapatec.tags.CheckAuthVar</tei-class>
+		<body-content>JSP</body-content>
+		<description>
+			Check that user is authenticated global (using single-signon). If they are not, 
+			send them to login page and they'll come back here after logging in.
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the name of the validated user
+				You need to first declare it in your jsp. Example:
+				&lt;%String userName%&gt; 
+				&lt;zp:checkAuth id="userName"/&gt;
+			</description>
+		</attribute>
+
+	</tag>
+
+
+	<tag>
+		<name>inZpGroup</name>
+		<tag-class>com.zapatec.tags.InZpGroup</tag-class>
+		<tei-class>com.zapatec.tags.InZpGroupVar</tei-class>
+		<body-content>JSP</body-content>
+		<description>
+			Check that users are in a specific group. If not will send them to 
+			the page specified.
+			See the tools section of the referance manual on creating groups.
+		</description>
+
+		<attribute>
+			<name>group</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+			The name of the group the user should belong to. Make sure that
+			the group has been defined in using the tools.
+		</description>
+		</attribute>
+
+		<attribute>
+			<name>user</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+		    The user name to check the group for.  If omitted, will use the 
+			single-signon username.
+		</description>
+		</attribute>
+
+		<attribute>
+			<name>redirect</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		<description>
+			"Sorry you are not authorized" Page to send users to, when they don't
+			belong to the group.
+		</description>
+		</attribute>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+			   name of the nested Boolean variable that holds the result of
+			   the tag.
+			</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>deleteRow</name>
+		<tag-class>com.zapatec.tags.DeleteRow</tag-class>
+		<body-content>empty</body-content>
+		<description>Delete a row from a database table </description>
+
+		<attribute>
+			<name>tableName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of the table from which the row is to be deleted
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>oid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The oid, the unique identifier, of the row in the table
+			</description>
+		</attribute>
+
+	</tag>
+	<tag>
+		<name>deleteFile</name>
+		<tag-class>com.zapatec.tags.DeleteFile</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Delete a file/attachment from a row in the table.
+			"tableName" is the name of the table, "col" is the name of the column
+			where the file is stored and "oid" is the row number in the
+			table.
+		</description>
+
+		<attribute>
+			<name>tableName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of the table where the file object is stored.
+			</description>
+		</attribute>
+		<attribute>
+			<name>oid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The oid identifying the row where the file is stored.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>col</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of the column that stores the file object.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>addNote</name>
+		<tag-class>com.zapatec.tags.addNote</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Add a note to the notes table
+		</description>
+
+		<attribute>
+			<name>table</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Name of the table the note is attached to
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>noteoid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The oid identifying the row that the note is attached to.
+			</description>
+		</attribute>
+		<attribute>
+			<name>updatedby</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Login name of the person adding the note. Usually will come
+				from the id feteched with the checkAuth tag.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>note</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The actual text of the note. 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the oid of the added note.
+			</description>
+		</attribute>
+		
+	</tag>
+
+	<tag>
+		<name>showNotes</name>
+		<tag-class>com.zapatec.tags.showNotes</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Show all the notes attached to a specific row
+		</description>
+
+		<attribute>
+			<name>table</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The name of the table the notes are attached to.
+			</description>
+		</attribute>
+		<attribute>
+			<name>noteoid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The oid identifying the row that the note is attached to.
+			</description>
+		</attribute>
+		<attribute>
+			<name>xslFileName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Optional XSL style sheet to apply to the report showing the notes
+			</description>
+		</attribute>
+		<attribute>
+			<name>fromDb</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				For internal Zapatec use.
+			</description>
+		</attribute>
+		<attribute>
+			<name>reverse</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Display the notes in reverse chronological order
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>email</name>
+		<tag-class>com.zapatec.tags.email</tag-class>
+		<body-content>empty</body-content>
+		<description>Send a email message</description>
+
+		<attribute>
+			<name>recipient</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The email  address of the person to whom you are sending the email 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>subject</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The subject line of the email
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>message</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The body of the email message
+			</description>
+		</attribute>
+		<attribute>
+			<name>from</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The email address of the person/entity sending the email
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>headers</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Any additional headers for the email
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>genRandomString</name>
+		<tag-class>com.zapatec.tags.genRandomString</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Generates a random string 5-10 chars long, unless
+			spezified otherwise as min and max parameter.
+		</description>
+
+		<attribute>
+			<name>min</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>max</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>getLoginURL</name>
+		<tag-class>com.zapatec.tags.getLoginURL</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Get the URL to the login page so that when the user is redirected
+			there they'll come back here after logging in.  
+			For internal Zapatec use.
+		</description>
+	</tag>
+	<tag>
+		<name>getLogoutURL</name>
+		<tag-class>com.zapatec.tags.getLogoutURL</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Get the URL to the logout page so that when the user is redirected
+			there they'll come back here after logging in.
+			For internal Zapatec use.
+		</description>
+
+	</tag>
+
+	<tag>
+		<name>htmlClean</name>
+		<tag-class>com.zapatec.tags.htmlClean</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Clean a html page so that '&amp;', '&lt;', '&gt;' are displayed
+			correctly. Used when displaying XML and HTML code.
+		</description>
+		<attribute>
+			<name>string</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>htmlSelect</name>
+		<tag-class>com.zapatec.tags.htmlSelect</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Given a query display an html table with the rows to the web page 
+		</description>
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>htmlSelectOne</name>
+		<tag-class>com.zapatec.tags.htmlSelectOne</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			given a query that only results in one row, display an html table
+			Deracated. Use SelectXsl with no stylesheet instead.
+		</description>
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>logout</name>
+		<tag-class>com.zapatec.tags.logout</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			redirect to logout page 
+		</description>
+
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>DBExecSql</name>
+		<tag-class>com.zapatec.tags.DBExecSql</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Execute a statement that doesn't return against current connection.
+			Only use if you REALLY know what you are doing. 
+		</description>
+
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> Execute this sql-query. </description>
+		</attribute>
+
+	</tag>
+	<tag>
+		<name>displayFile</name>
+		<tag-class>com.zapatec.tags.DisplayFile</tag-class>
+		<body-content>JSP</body-content>
+		<description> 
+			Display content of a ZpFile by oid.
+		</description>
+
+		<attribute>
+			<name>oid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The oid-string to lookup zpfile by </description>
+		</attribute>
+
+		<attribute>
+			<name>publicDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to execute SQL Query against public database instead of
+				user database. For internal Zapatec use.
+			</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>queryOne</name>
+		<tag-class>com.zapatec.tags.QueryOne</tag-class>
+		<tei-class>com.zapatec.tags.QueryOneVar</tei-class>
+		<body-content>JSP</body-content>
+		<description> 
+			Display or fetch the output of a query that fetches a single variable
+		</description>
+
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The SQL query to run</description>
+		</attribute>
+
+		<attribute>
+			<name>publicDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to execute SQL Query against public database instead of
+				user database. For internal Zapatec use.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>fromPublic</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> deprecated. use publicDB.</description>
+		</attribute>
+
+		<attribute>
+			<name>display</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to display the output. 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the output of the query. Note
+				that this variable needs to be of type "Object."
+			</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>enumChooser</name>
+		<tag-class>com.zapatec.tags.EnumChooser</tag-class>
+		<tei-class>com.zapatec.tags.EnumChooserVar</tei-class>
+		<body-content>JSP</body-content>
+		<description> 
+			Display or fetch the html code for a drop down defined as either
+			an enum (provide enumname) or an arbitray sql query (provide query).
+		</description>
+
+		<attribute>
+			<name>enumValues</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> String[] with Values. You can specify the query also, and both value sets will be appended. </description>
+		</attribute>
+
+		<attribute>
+			<name>enum</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The enum to get the values for. You can specify the query directy instead. </description>
+		</attribute>
+
+		<attribute>
+			<name>publicDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to execute SQL Query against public database instead of
+				user database. For internal Zapatec use.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>query</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Specify query to get results instead of looking up query for enumname in 
+				zp_enum_list. 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>default</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set the default value you want to be preselected.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set the URL to act on when user clicks. If not specified,
+				the same URL as the calling page is taken.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>required</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to disallow empty choices 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>display</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "false" to suppress display output. 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java String variable to hold the output of the query. 
+			</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>rowOwner</name>
+		<tag-class>com.zapatec.tags.RowOwner</tag-class>
+		<body-content>JSP</body-content>
+		<description> 
+			Test if the updating user is the owner of the row. For that, specify the column containing the username, 
+			the oid, and the table. 
+		</description>
+
+		<attribute>
+			<name>table</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The table we test for</description>
+		</attribute>
+
+		<attribute>
+			<name>column</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The column that contains the user information </description>
+		</attribute>
+
+		<attribute>
+			<name>user</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The username to test for. Optional.</description>
+		</attribute>
+		<attribute>
+			<name>redirect</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The url to redirect to when the user is not the row owner.</description>
+		</attribute>
+
+		<attribute>
+			<name>publicDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to execute SQL Query against public database instead of
+				user database. For internal Zapatec use.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>oid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Specify which row we test for by oid.
+			</description>
+		</attribute>
+
+	</tag>
+
+
+	<tag>
+		<name>query</name>
+		<tag-class>com.zapatec.tags.Query</tag-class>
+		<tei-class>com.zapatec.tags.QueryVar</tei-class>
+		<body-content>JSP</body-content>
+		<description> 
+			Display or fetch the output of a query that fetches several rows into an array
+		</description>
+
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> The SQL query to run</description>
+		</attribute>
+
+		<attribute>
+			<name>publicDB</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to execute SQL Query against public database instead of
+				user database. For internal Zapatec use.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>fromPublic</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> deprecated. use publicDB.</description>
+		</attribute>
+
+		<attribute>
+			<name>display</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				Set to "true" to display the output. 
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the output of the query. Note
+				that this variable needs to be of type "Object[]".
+			</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>timestamp</name>
+		<tag-class>com.zapatec.tags.timestamp</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Sets timestamp for timezone, otherwise uses Pacific Day Time.
+			</description>
+
+		<attribute>
+			<name>timezone</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>redirect</name>
+		<tag-class>com.zapatec.tags.Redirect</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Sends the user to a different page.
+		</description>
+
+		<attribute>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description> 
+				The address of the page that the user is redirected to.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>popPath</name>
+		<tag-class>com.zapatec.tags.PopPath</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Redirects the user to the page from which they came.
+		</description>
+		<attribute>
+			<name>altUrl</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				The address of the page to redirect to in case the popped
+				path is null.  This can happen if the user's login session 
+				expires while they are view a page, so it is a good idea
+				to set this to a safe value.
+			</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>getUserName</name>
+		<tag-class>com.zapatec.tags.getUserName</tag-class>
+		<tei-class>com.zapatec.tags.getUserNameVar</tei-class>
+		<body-content>empty</body-content>
+		<description> 
+			Gets the username of the current user, or null
+			if the current user has not logged in.
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the username.
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>getCurrentPath</name>
+		<tag-class>com.zapatec.tags.getCurrentPath</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+			Prints the path of the current page.
+		</description>
+	</tag>
+	<tag>
+		<name>AddToGroup</name>
+		<tag-class>com.zapatec.tags.AddToGroup</tag-class>
+		<body-content>empty</body-content>
+		<description> 
+  			add a user to a group in zp_group_member
+			the groupname has to exist otherwise this will throw
+			a missing reference exception
+		</description>
+		<attribute>
+			<name>groupname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Name of the group the specified user should be added to
+			</description>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				User name that is to be a member of the group
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>chart</name>
+		<tag-class>com.zapatec.tags.Chart</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			Generates a dataset from a SQL query for use with the cewolf charting
+			tag library.
+        </description>
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>SQL query used to generate the dataset.</description>
+		</attribute>
+		<attribute>
+			<name>dependentVariable</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+                 Name of column in query that is the dependent variable.
+                 Defaults to the first column.
+			</description>
+		</attribute>
+		<attribute>
+			<name>independentVariable</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+                 Name of column in query that is the independent variable.
+                 Defaults to numerical order (1, 2, 3, etc).
+			</description>
+		</attribute>
+		<attribute>
+			<name>producerId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+                  Identifier of the producer; used in cewolf tags.
+			</description>
+		</attribute>
+		<attribute>
+			<name>series</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+                  Name of column dictating series in query.  Defaults
+                  to one series ("Default").
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>login</name>
+		<tag-class>com.zapatec.tags.Login</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Check that users are authenticated. If they are not, send them to login
+			page and they'll come back here after logging in.
+		</description>
+		<attribute>
+			<name>loginURL</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+			</description>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>getLocalUserName</name>
+		<tag-class>com.zapatec.tags.getLocalUserName</tag-class>
+		<tei-class>com.zapatec.tags.getLocalUserNameVar</tei-class>
+		<body-content>empty</body-content>
+		<description> 
+			Gets the username of the current user, or null
+			if the current user has not logged in.
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Name of the java variable to hold the username.
+			</description>
+		</attribute>
+	</tag>
+</taglib>
