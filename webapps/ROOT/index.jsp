@@ -4,7 +4,7 @@
     <title>Welcome</title>
 </head>
 <body >
-            <h2>Hello World !</h2>
+            <h2>Hello grot World !</h2>
             <table width="750">
               <tr>  
                 <th align="left" width="200">    Java Property  </th>  
