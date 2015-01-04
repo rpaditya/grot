@@ -29,7 +29,6 @@
 	<tr><td>request query string</td><td><%=request.getQueryString()%></td></tr>
 	<tr><td>RemoteUser</td><td><%=request.getRemoteUser()%></td></tr>
 	<tr><td>Locale</td><td><%=request.getLocale()%></td></tr>
-	<tr><td>LocalUser</td><td><%=sUserLocal%></td></tr>
 	<tr><td>MaxInactiveInterval</td><td><%=session.getMaxInactiveInterval()%></td></tr>
 	<tr><td>creationTime</td><td><%=session.getCreationTime()%></td></tr>
 	<tr><td>Current time</td><td><%=System.currentTimeMillis()%></td></tr>
